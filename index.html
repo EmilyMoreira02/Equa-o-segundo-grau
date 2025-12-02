@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Equações de Segundo Grau</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="light-mode">
+    <div class="container">
+        <button id="themeToggle" class="theme-toggle-btn" aria-label="Alternar tema claro/escuro">
+            <i class="fas fa-moon"></i> 
+        </button>
+        
+        <h1>Calculadora Interativa de Bhaskara</h1>
+        
+        <div class="formula-box formula-display">
+            <p>Equação Quadrática: ax² + bx + c = 0</p>
+            <p>Fórmula de Bhaskara: $$x = \frac{-b \pm \sqrt{\Delta}}{2a}$$</p>
+        </div>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label for="a">Coeficiente a:</label>
+                <input type="number" step="any" id="a">
+            </div>
+            <div class="input-group">
+                <label for="b">Coeficiente b:</label>
+                <input type="number" step="any" id="b">
+            </div>
+            <div class="input-group">
+                <label for="c">Coeficiente c:</label>
+                <input type="number" step="any" id="c">
+            </div>
+        </div>
+
+        <button id="calcular">Calcular Raízes e Gerar Gráfico</button>
+
+        <div class="resultado-container">
+            <h2>Análise e Solução</h2>
+            <div id="resultado" class="card-secao">
+                <p>Insira os coeficientes acima e clique em "Calcular Raízes" para ver a solução detalhada.</p>
+            </div>
+            
+            <h2>Gráfico da Função</h2>
+            <div id="grafico"></div>
+
+            <h2 style="margin-top: 30px;"> Histórico de Cálculos</h2>
+            <div id="historico" class="card-secao">
+                </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

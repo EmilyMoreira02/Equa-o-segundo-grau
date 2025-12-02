@@ -1,0 +1,307 @@
+/* --- Base Styles (Light Mode) --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f4f8; /* Fundo Claro */
+    color: #1e293b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    background-color: #ffffff; /* Fundo do Card Claro */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+h1 {
+    text-align: center;
+    color: #4f46e5;
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+h2, .secao-titulo {
+    color: #1f2937;
+    transition: color 0.3s;
+}
+
+.formula-display {
+    text-align: center;
+    padding: 15px;
+    background-color: #eef2ff; /* Fundo Leve Claro */
+    border-radius: 8px;
+    border: 1px solid #c7d2fe;
+}
+
+.formula-display p {
+    color: #4f46e5;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+label {
+    font-weight: 600;
+    color: #374151;
+}
+
+input[type="number"] {
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1em;
+    background-color: #ffffff;
+    color: #1e293b;
+    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);
+}
+
+button:hover {
+    background-color: #059669;
+}
+
+.resultado-container {
+    border-top: 2px solid #e5e7eb;
+    padding-top: 20px;
+    transition: border-color 0.3s;
+}
+
+.alerta-erro {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border-left: 5px solid #ef4444;
+}
+
+.card-secao {
+    background-color: #f9fafb; /* Fundo das Subseções Claro */
+    border: 1px solid #e5e7eb;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.equacao-box {
+    background-color: #f0f4f8;
+    transition: background-color 0.3s;
+}
+
+.calculo-passo {
+    background-color: #ffffff;
+    border: 1px solid #e0e7ff;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.complexas-box {
+    background-color: #fee2e2;
+    border: 1px solid #fca5a5;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* --- Dark Mode Styles --- */
+
+.dark-mode {
+    background-color: #121212;
+    color: #e2e8f0;
+}
+
+.dark-mode .container {
+    background-color: #1f2937;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode h1 {
+    color: #818cf8; /* Roxo mais claro */
+}
+
+.dark-mode h2, .dark-mode .secao-titulo {
+    color: #f3f4f6;
+}
+
+.dark-mode label {
+    color: #d1d5db;
+}
+
+.dark-mode input[type="number"] {
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    color: #f3f4f6;
+}
+
+.dark-mode .formula-display {
+    background-color: #374151;
+    border: 1px solid #4b5563;
+}
+
+.dark-mode .formula-display p {
+    color: #a5b4fc;
+}
+
+.dark-mode .resultado-container {
+    border-top-color: #374151;
+}
+
+.dark-mode .card-secao {
+    background-color: #2f3a46;
+    border: 1px solid #4b5563;
+}
+
+.dark-mode .equacao-box {
+    background-color: #252f39;
+}
+
+.dark-mode .calculo-passo {
+    background-color: #1f2937;
+    border: 1px solid #4b5563;
+}
+
+.dark-mode .complexas-box {
+    background-color: #451a1a;
+    border: 1px solid #7f1d1d;
+}
+
+.dark-mode .alerta-erro {
+    background-color: #451a1a;
+    color: #fca5a5;
+    border-left: 5px solid #ef4444;
+}
+
+/* --- Theme Toggle Button --- */
+
+.theme-toggle-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background-color: #4f46e5;
+    color: white;
+    border-radius: 50%;
+    padding: 0;
+    font-size: 1.1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.dark-mode .theme-toggle-btn {
+    background-color: #818cf8;
+}
+
+
+/* --- Histórico Styles --- */
+
+.lista-historico {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 5px;
+}
+.lista-historico li {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    display: flex;
+    flex-wrap: wrap; /* Permite quebrar em telas pequenas */
+    gap: 10px;
+    font-size: 0.9em;
+    align-items: center;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.dark-mode .lista-historico li {
+    background-color: #1f2937;
+    border: 1px solid #4b5563;
+}
+
+.index-historico {
+    font-weight: 700;
+    color: #4f46e5;
+    min-width: 15px;
+}
+.eq-historico {
+    flex-grow: 1;
+    font-family: monospace;
+}
+.raizes-historico {
+    font-weight: 600;
+    color: #059669;
+    white-space: nowrap;
+}
+.data-historico {
+    color: #6b7280;
+    font-size: 0.8em;
+    white-space: nowrap;
+}
+
+.dark-mode .data-historico {
+    color: #9ca3af;
+}
+
+.btn-secundario {
+    width: auto;
+    padding: 8px 15px;
+    background-color: #94a3b8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9em;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-top: 15px;
+    box-shadow: none;
+}
+
+.btn-secundario:hover {
+    background-color: #6b7280;
+    transform: none;
+}
+
+/* --- Media Queries (Responsividade) --- */
+
+@media (max-width: 600px) {
+    .grid-raizes {
+        grid-template-columns: 1fr;
+    }
+    .input-grid {
+        grid-template-columns: 1fr;
+    }
+    .lista-historico li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .eq-historico, .raizes-historico, .data-historico {
+        width: 100%;
+        white-space: normal;
+    }
+}
