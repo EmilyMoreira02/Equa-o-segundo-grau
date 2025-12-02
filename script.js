@@ -23,23 +23,22 @@ if (typeof SpeechRecognition === 'undefined') {
     }
 } else {
     const recognition = new SpeechRecognition();
-    recognition.continuous = false; // Queremos uma única entrada
-    recognition.lang = 'pt-BR'; // Define o idioma
-    recognition.interimResults = false; // Queremos apenas o resultado final
+    recognition.continuous = false; 
+    recognition.lang = 'pt-BR'; 
+    recognition.interimResults = false; 
 
     // Função que processa o texto reconhecido
     function processarComando(transcricao) {
         const texto = transcricao.toLowerCase().trim();
-        const regexA = /a.*?(\-?\s?\d+(\,\d+)?)/; // Captura 'a' e o número (opcionalmente negativo, com vírgula)
-        const regexB = /b.*?(\-?\s?\d+(\,\d+)?)/; // Captura 'b' e o número
-        const regexC = /c.*?(\-?\s?\d+(\,\d+)?)/; // Captura 'c' e o número
+        const regexA = /a.*?(\-?\s?\d+(\,\d+)?)/; 
+        const regexB = /b.*?(\-?\s?\d+(\,\d+)?)/; 
+        const regexC = /c.*?(\-?\s?\d+(\,\d+)?)/; 
         
         let a = null, b = null, c = null;
 
         // Função auxiliar para extrair e limpar o número
         const extrairValor = (match) => {
             if (!match) return null;
-            // Pega o grupo de captura (o número), remove espaços e substitui vírgula por ponto.
             const valorStr = match[1].replace(/\s/g, '').replace(',', '.');
             return parseFloat(valorStr);
         };
@@ -51,7 +50,6 @@ if (typeof SpeechRecognition === 'undefined') {
 
         let inputsPreenchidos = 0;
 
-        // Atualiza os inputs apenas se o valor for válido
         if (a !== null && !isNaN(a)) {
             inputA.value = a;
             inputsPreenchidos++;
@@ -65,18 +63,16 @@ if (typeof SpeechRecognition === 'undefined') {
             inputsPreenchidos++;
         }
         
-        statusVoz.style.color = '#34d399'; // Verde
+        statusVoz.style.color = '#34d399'; 
         if (inputsPreenchidos > 0) {
             statusVoz.textContent = `🎤 Coeficientes reconhecidos e inseridos. Clicando em Calcular...`;
-            // Dispara o cálculo automaticamente após a entrada de voz
             calcularBhaskara(true);
         } else {
-            statusVoz.style.color = '#f87171'; // Vermelho
+            statusVoz.style.color = '#f87171'; 
             statusVoz.textContent = `🎤 Não foi possível entender os coeficientes (ex: 'a igual a 2, b é -3, c é 5').`;
         }
     }
 
-    // Evento de resultado (quando o usuário para de falar)
     recognition.onresult = (event) => {
         const transcricao = event.results[0][0].transcript;
         statusVoz.style.display = 'block';
@@ -84,17 +80,15 @@ if (typeof SpeechRecognition === 'undefined') {
         processarComando(transcricao);
     };
 
-    // Evento de início da gravação
     recognition.onstart = () => {
         if (btnVoz) {
-            btnVoz.classList.add('gravando'); // Classe para indicar gravação (opcional no CSS)
+            btnVoz.classList.add('gravando'); 
             btnVoz.innerHTML = '<i class="fas fa-microphone"></i> Falando...';
         }
         statusVoz.style.display = 'block';
         statusVoz.textContent = ` Pronto, diga 'a igual a [valor], b igual a [valor], c igual a [valor]'.`;
     };
 
-    // Evento de fim da gravação ou erro
     recognition.onend = () => {
         if (btnVoz) {
             btnVoz.classList.remove('gravando');
@@ -107,21 +101,17 @@ if (typeof SpeechRecognition === 'undefined') {
         }, 5000);
     };
     
-    // Evento de erro
     recognition.onerror = (event) => {
         statusVoz.style.display = 'block';
         statusVoz.style.color = '#f87171';
         statusVoz.textContent = `🎤 Erro: ${event.error}. Verifique se o microfone está conectado e permitido.`;
     };
 
-
-    // Evento de clique do botão
     if (btnVoz) {
         btnVoz.addEventListener('click', () => {
             try {
                 recognition.start();
             } catch (e) {
-                // Captura erro se a gravação já estiver em curso (previne o crash da API)
                 if (e.name !== 'InvalidStateError') {
                     console.error('Erro ao iniciar reconhecimento de voz:', e);
                 }
@@ -169,7 +159,6 @@ function renderizarHistorico() {
     
     let htmlHistorico = `<ul class="lista-historico">`;
 
-    // A numeração (index + 1) foi removida daqui
     historico.forEach((item) => { 
         htmlHistorico += `
             <li>
@@ -451,3 +440,4 @@ document.addEventListener('DOMContentLoaded', () => {
     calcularBhaskara(false);
     renderizarHistorico();
 });
+
