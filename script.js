@@ -7,8 +7,128 @@ const graficoDiv = document.getElementById('grafico');
 const historicoDiv = document.getElementById('historico');
 const themeToggleBtn = document.getElementById('themeToggle');
 const body = document.body;
+const btnVoz = document.getElementById('btnVoz');
+const statusVoz = document.getElementById('statusVoz');
 
 const formatar = (num) => parseFloat(num.toFixed(4));
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (typeof SpeechRecognition === 'undefined') {
+    if (btnVoz) {
+        btnVoz.disabled = true;
+        btnVoz.textContent = "Voz Não Suportada";
+        statusVoz.style.display = 'block';
+        statusVoz.textContent = "A entrada de voz não é suportada neste navegador (Tente Chrome/Edge).";
+    }
+} else {
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false; // Queremos uma única entrada
+    recognition.lang = 'pt-BR'; // Define o idioma
+    recognition.interimResults = false; // Queremos apenas o resultado final
+
+    // Função que processa o texto reconhecido
+    function processarComando(transcricao) {
+        const texto = transcricao.toLowerCase().trim();
+        const regexA = /a.*?(\-?\s?\d+(\,\d+)?)/; // Captura 'a' e o número (opcionalmente negativo, com vírgula)
+        const regexB = /b.*?(\-?\s?\d+(\,\d+)?)/; // Captura 'b' e o número
+        const regexC = /c.*?(\-?\s?\d+(\,\d+)?)/; // Captura 'c' e o número
+        
+        let a = null, b = null, c = null;
+
+        // Função auxiliar para extrair e limpar o número
+        const extrairValor = (match) => {
+            if (!match) return null;
+            // Pega o grupo de captura (o número), remove espaços e substitui vírgula por ponto.
+            const valorStr = match[1].replace(/\s/g, '').replace(',', '.');
+            return parseFloat(valorStr);
+        };
+
+        // Extrai os valores
+        a = extrairValor(texto.match(regexA));
+        b = extrairValor(texto.match(regexB));
+        c = extrairValor(texto.match(regexC));
+
+        let inputsPreenchidos = 0;
+
+        // Atualiza os inputs apenas se o valor for válido
+        if (a !== null && !isNaN(a)) {
+            inputA.value = a;
+            inputsPreenchidos++;
+        }
+        if (b !== null && !isNaN(b)) {
+            inputB.value = b;
+            inputsPreenchidos++;
+        }
+        if (c !== null && !isNaN(c)) {
+            inputC.value = c;
+            inputsPreenchidos++;
+        }
+        
+        statusVoz.style.color = '#34d399'; // Verde
+        if (inputsPreenchidos > 0) {
+            statusVoz.textContent = `🎤 Coeficientes reconhecidos e inseridos. Clicando em Calcular...`;
+            // Dispara o cálculo automaticamente após a entrada de voz
+            calcularBhaskara(true);
+        } else {
+            statusVoz.style.color = '#f87171'; // Vermelho
+            statusVoz.textContent = `🎤 Não foi possível entender os coeficientes (ex: 'a igual a 2, b é -3, c é 5').`;
+        }
+    }
+
+    // Evento de resultado (quando o usuário para de falar)
+    recognition.onresult = (event) => {
+        const transcricao = event.results[0][0].transcript;
+        statusVoz.style.display = 'block';
+        statusVoz.textContent = `🎤 Você disse: "${transcricao}"`;
+        processarComando(transcricao);
+    };
+
+    // Evento de início da gravação
+    recognition.onstart = () => {
+        if (btnVoz) {
+            btnVoz.classList.add('gravando'); // Classe para indicar gravação (opcional no CSS)
+            btnVoz.innerHTML = '<i class="fas fa-microphone"></i> Falando...';
+        }
+        statusVoz.style.display = 'block';
+        statusVoz.textContent = ` Pronto, diga 'a igual a [valor], b igual a [valor], c igual a [valor]'.`;
+    };
+
+    // Evento de fim da gravação ou erro
+    recognition.onend = () => {
+        if (btnVoz) {
+            btnVoz.classList.remove('gravando');
+            btnVoz.innerHTML = '<i class="fas fa-microphone"></i> Inserir por Voz';
+        }
+        setTimeout(() => {
+            if (!statusVoz.textContent.includes('Erro:')) {
+                statusVoz.style.display = 'none';
+            }
+        }, 5000);
+    };
+    
+    // Evento de erro
+    recognition.onerror = (event) => {
+        statusVoz.style.display = 'block';
+        statusVoz.style.color = '#f87171';
+        statusVoz.textContent = `🎤 Erro: ${event.error}. Verifique se o microfone está conectado e permitido.`;
+    };
+
+
+    // Evento de clique do botão
+    if (btnVoz) {
+        btnVoz.addEventListener('click', () => {
+            try {
+                recognition.start();
+            } catch (e) {
+                // Captura erro se a gravação já estiver em curso (previne o crash da API)
+                if (e.name !== 'InvalidStateError') {
+                    console.error('Erro ao iniciar reconhecimento de voz:', e);
+                }
+            }
+        });
+    }
+}
 
 function exibirAlerta(mensagem) {
     resultadoDiv.innerHTML = `<div class="alerta-erro"><strong>Atenção!</strong> ${mensagem}</div>`;
